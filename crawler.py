@@ -19,7 +19,11 @@ table1 = wb.create_sheet('本土每日新增确诊')
 table2 = wb.create_sheet('本土每日新增无症状')
 table3 = wb.create_sheet('港澳台每日累计确诊')
 table4 = wb.create_sheet('港澳台每日新增确诊')
-
+table1.append(province)
+table2.append(province)
+table3.append(['日期', '香港', '澳门', '台湾'])
+table4.append(['日期', '香港', '澳门', '台湾'])
+wb.remove(wb["Sheet"])
 
 #防止requests异常
 requests.DEFAULT_RETRIES = 5
@@ -204,11 +208,6 @@ def getUrl():
 
 def yqtbCrawler():
     if os.path.exists('疫情通报.xlsx') == False:
-        table1.append(province)
-        table2.append(province)
-        table3.append(['日期', '香港', '澳门', '台湾'])
-        table4.append(['日期', '香港', '澳门', '台湾'])
-        wb.remove(wb["Sheet"])
         getUrl()
         wb.save('疫情通报.xlsx')
         wb.close()
