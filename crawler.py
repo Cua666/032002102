@@ -208,8 +208,8 @@ def getUrl():
 
 def yqtbCrawler():
     if os.path.exists('疫情通报.xlsx') == False:
+        print('begin crawling...')
         getUrl()
         wb.save('疫情通报.xlsx')
         wb.close()
-if __name__ == '__main__':
-    yqtbCrawler()
+        print('end crawling...')

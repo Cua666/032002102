@@ -53,8 +53,7 @@ def MAP(date):
         )
     webbrowser.open_new(html)
 
-#def visualize():
-if __name__ == '__main__':
+def visualize():
     while True:
         date = input('请输入日期(2020-05-16至{})，格式为yyyy-mm-dd:'.format(lastValidDate))
         try:
