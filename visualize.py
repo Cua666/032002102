@@ -36,7 +36,7 @@ def MAP(date):
             .add("新增确诊", newDiagnosed1[2:-1] + newDiagnosed2, "china")
             .add("新增无症状", newAsymptomatic[2:-1], "china")
             .set_global_opts(title_opts=opts.TitleOpts(title=('{}疫情通报'.format(newDiagnosed1[0][1])),
-                                                       subtitle="兵团确诊{}例， 无症状{}例\n无症状无统计港澳台".format(newDiagnosed1[-1][1], newAsymptomatic[-1][1])),
+                                                       subtitle="本土新增确诊{}例，无症状{}例\n兵团新增确诊{}例， 无症状{}例\n无症状无统计港澳台".format(newDiagnosed1[1][1],newAsymptomatic[1][1],newDiagnosed1[-1][1], newAsymptomatic[-1][1])),
                              visualmap_opts=opts.VisualMapOpts(
                                  is_piecewise=True,
                                  pieces=[
