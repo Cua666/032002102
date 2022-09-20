@@ -5,19 +5,21 @@ import datetime
 import openpyxl
 from pyecharts import options as opts
 from pyecharts.charts import Map
-lastModifyDate = time.strftime("%Y-%m-%d", time.localtime(os.path.getmtime('疫情通报.xlsx')))
-lastValidDate = ((datetime.datetime.strptime(lastModifyDate, "%Y-%m-%d")) + datetime.timedelta(days = -1)).strftime('%Y-%m-%d')
-firstDate = time.strptime(lastValidDate, "%Y-%m-%d")
-finalDate = time.strptime('2020-05-16', "%Y-%m-%d")
-date1 = datetime.datetime.strptime(lastValidDate, "%Y-%m-%d").date()
+#数据最终修改时间，数据最新有效时间，数据最末有效时间, 在调用visualize() 时设置全局变量
+lastModifyDate = None
+lastValidDate = None
+firstDate = None
+finalDate = None
+date1 = None
 
 province = ['日期', '本土', '福建', '北京', '河北', '山西', '辽宁', '吉林', '黑龙江', '江苏', '浙江', '安徽', '江西', '山东', '河南', '湖北', '湖南', '广东', '海南', '四川',
             '贵州', '云南', '陕西', '甘肃', '内蒙古', '青海', '广西', '西藏', '宁夏', '新疆', '天津', '上海', '重庆', '兵团']
 gat = ['日期', '香港', '澳门', '台湾']
-wb = openpyxl.load_workbook('疫情通报.xlsx')
+wb = None
+#绘图
 def MAP(date):
+    global lastModifyDate, lastValidDate, firstDate, finalDate, date1, wb
     date2 = datetime.datetime.strptime(date, "%Y-%m-%d").date()
-
     dateIndex = int((date1 - date2).days) + 2
     sheet = wb['本土每日新增确诊']
     newDiagnosed1 = [(province[x], sheet[dateIndex][x].value) for x in range(len(province))]
@@ -52,8 +54,17 @@ def MAP(date):
             .render(html)
         )
     webbrowser.open_new(html)
-
+#数据可视化
 def visualize():
+    #初始化全局参数
+    global lastModifyDate, lastValidDate, firstDate, finalDate, date1, wb
+    lastModifyDate = time.strftime("%Y-%m-%d", time.localtime(os.path.getmtime('疫情通报.xlsx')))
+    lastValidDate = ((datetime.datetime.strptime(lastModifyDate, "%Y-%m-%d")) + datetime.timedelta(days=-1)).strftime(
+        '%Y-%m-%d')
+    firstDate = time.strptime(lastValidDate, "%Y-%m-%d")
+    finalDate = time.strptime('2020-05-16', "%Y-%m-%d")
+    date1 = datetime.datetime.strptime(lastValidDate, "%Y-%m-%d").date()
+    wb = openpyxl.load_workbook('疫情通报.xlsx')
     while True:
         date = input('请输入日期(2020-05-16至{})，格式为yyyy-mm-dd:'.format(lastValidDate))
         try:
